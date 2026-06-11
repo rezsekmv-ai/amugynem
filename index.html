@@ -37,7 +37,7 @@
     h1 { font-size: 15px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0 0 22px; }
     .field { display: flex; flex-direction: column; gap: 12px; }
     .actions { display: flex; gap: 10px; }
-    input {
+    textarea {
       width: 100%;
       background: #0e1016;
       border: 1px solid #2a2f3c;
@@ -45,11 +45,17 @@
       padding: 14px 16px;
       color: var(--fg);
       font-size: 16px;
+      font-family: inherit;
+      line-height: 1.45;
       outline: none;
       transition: border-color .15s ease;
       min-width: 0;
+      resize: none;
+      overflow-y: auto;
+      max-height: 240px;
+      display: block;
     }
-    input:focus { border-color: var(--accent); }
+    textarea:focus { border-color: var(--accent); }
     .btn {
       border: 0;
       border-radius: 12px;
@@ -94,7 +100,7 @@
   <main class="card">
     <h1>írj be valamit (vagy mondd be)</h1>
     <form class="field" id="form">
-      <input id="input" type="text" placeholder="bármit…" autocomplete="off" autofocus />
+      <textarea id="input" rows="1" placeholder="bármit…" autocomplete="off" autofocus></textarea>
       <div class="actions">
         <button type="button" class="btn mic" id="mic" title="Beszéd hangból" aria-label="Mikrofon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -117,6 +123,14 @@
     const input = document.getElementById('input');
     const mic = document.getElementById('mic');
     const hint = document.getElementById('hint');
+
+    // Auto-grow the textarea so long / multi-line input stays fully visible.
+    function autoGrow() {
+      input.style.height = 'auto';
+      input.style.height = input.scrollHeight + 'px';
+    }
+    input.addEventListener('input', autoGrow);
+    requestAnimationFrame(autoGrow);
 
     form.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -159,6 +173,7 @@
         let text = '';
         for (let i = 0; i < e.results.length; i++) text += e.results[i][0].transcript;
         input.value = text.trim();
+        autoGrow();
         if (e.results[e.results.length - 1].isFinal) hint.textContent = '';
       };
     }
