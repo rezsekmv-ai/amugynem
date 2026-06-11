@@ -87,6 +87,7 @@
       font-size: 34px;
       font-weight: 800;
       letter-spacing: -.02em;
+      text-transform: lowercase;
       color: var(--no);
       opacity: 0;
       transform: translateY(8px) scale(.96);
@@ -136,7 +137,7 @@
       e.preventDefault();
       // 15% "Haveeer", 15% "Tesooo", otherwise "amúgy nem"
       const r = Math.random();
-      answer.textContent = r < 0.15 ? 'Haveeer' : r < 0.30 ? 'Tesooo' : 'amúgy nem';
+      answer.textContent = r < 0.15 ? 'haveeer' : r < 0.30 ? 'tesooo' : 'amúgy nem';
       answer.classList.remove('show');
       void answer.offsetWidth; // restart animation on repeated clicks
       answer.classList.add('show');
