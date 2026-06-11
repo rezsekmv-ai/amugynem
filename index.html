@@ -138,6 +138,9 @@
       // 15% "Haveeer", 15% "Tesooo", otherwise "amúgy nem"
       const r = Math.random();
       answer.textContent = r < 0.15 ? 'haveeer' : r < 0.30 ? 'tesooo' : 'amúgy nem';
+      if (window.goatcounter && window.goatcounter.count) {
+        window.goatcounter.count({ path: 'answer', title: 'answer shown', event: true });
+      }
       answer.classList.remove('show');
       void answer.offsetWidth; // restart animation on repeated clicks
       answer.classList.add('show');
@@ -159,6 +162,9 @@
 
       mic.addEventListener('click', () => {
         if (listening) { rec.stop(); return; }
+        if (window.goatcounter && window.goatcounter.count) {
+          window.goatcounter.count({ path: 'mic', title: 'mic used', event: true });
+        }
         try { rec.start(); } catch (_) {}
       });
 
@@ -179,5 +185,9 @@
       };
     }
   </script>
+
+  <!-- GoatCounter: privacy-friendly, cookieless analytics -->
+  <script data-goatcounter="https://amugynem.goatcounter.com/count"
+          async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
